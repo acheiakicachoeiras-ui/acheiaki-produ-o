@@ -1,0 +1,534 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with role and contact information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 255 },
+        "displayName": { "type": "string", "maxLength": 120 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "role": { "type": "string", "enum": ["customer", "merchant", "provider", "driver", "worker", "master"] },
+        "avatarUrl": { "type": "string", "maxLength": 500 },
+        "status": { "type": "string", "enum": ["active", "suspended", "pending"] },
+        "city": { "type": "string", "maxLength": 100 },
+        "state": { "type": "string", "maxLength": 2 },
+        "addresses": { "type": "array" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["uid", "email", "displayName", "role", "status"]
+    },
+    "Store": {
+      "title": "Store",
+      "description": "Merchant business / store profile in the marketplace",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "ownerUid": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 120 },
+        "slug": { "type": "string", "maxLength": 120 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "category": { "type": "string", "maxLength": 60 },
+        "logoUrl": { "type": "string", "maxLength": 500 },
+        "bannerUrl": { "type": "string", "maxLength": 500 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "whatsapp": { "type": "string", "maxLength": 30 },
+        "address": { "type": "string", "maxLength": 255 },
+        "neighborhood": { "type": "string", "maxLength": 100 },
+        "city": { "type": "string", "maxLength": 100 },
+        "openingHours": { "type": "string", "maxLength": 100 },
+        "isOpen": { "type": "boolean" },
+        "rating": { "type": "number" },
+        "reviewsCount": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "pending", "suspended"] },
+        "planId": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "ownerUid", "name", "category", "city", "status"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Product catalog item listed by a store",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "storeId": { "type": "string", "maxLength": 128 },
+        "storeName": { "type": "string", "maxLength": 120 },
+        "name": { "type": "string", "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "category": { "type": "string", "maxLength": 80 },
+        "price": { "type": "number" },
+        "promoPrice": { "type": "number" },
+        "inStock": { "type": "boolean" },
+        "stockQuantity": { "type": "number" },
+        "sku": { "type": "string", "maxLength": 60 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "featured": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "storeId", "name", "price", "category", "status"]
+    },
+    "ServiceProvider": {
+      "title": "ServiceProvider",
+      "description": "Professional service provider profile",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "ownerUid": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 120 },
+        "specialty": { "type": "string", "maxLength": 100 },
+        "category": { "type": "string", "maxLength": 80 },
+        "bio": { "type": "string", "maxLength": 1000 },
+        "avatarUrl": { "type": "string", "maxLength": 500 },
+        "coverUrl": { "type": "string", "maxLength": 500 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "city": { "type": "string", "maxLength": 100 },
+        "coverageArea": { "type": "string", "maxLength": 200 },
+        "availability": { "type": "string", "maxLength": 100 },
+        "rating": { "type": "number" },
+        "reviewsCount": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "pending", "suspended"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "ownerUid", "name", "specialty", "category", "status"]
+    },
+    "ServiceItem": {
+      "title": "ServiceItem",
+      "description": "Service offered by a professional",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "providerId": { "type": "string", "maxLength": 128 },
+        "providerName": { "type": "string", "maxLength": 120 },
+        "name": { "type": "string", "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 1500 },
+        "category": { "type": "string", "maxLength": 80 },
+        "estimatedPrice": { "type": "number" },
+        "priceType": { "type": "string", "enum": ["fixed", "from", "quote"] },
+        "duration": { "type": "string", "maxLength": 80 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "providerId", "name", "priceType", "status"]
+    },
+    "ServiceRequest": {
+      "title": "ServiceRequest",
+      "description": "Customer booking or quote request for a service",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "customerName": { "type": "string", "maxLength": 120 },
+        "customerPhone": { "type": "string", "maxLength": 30 },
+        "providerId": { "type": "string", "maxLength": 128 },
+        "providerName": { "type": "string", "maxLength": 120 },
+        "serviceId": { "type": "string", "maxLength": 128 },
+        "serviceTitle": { "type": "string", "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "preferredDate": { "type": "string", "maxLength": 50 },
+        "address": { "type": "string", "maxLength": 255 },
+        "agreedValue": { "type": "number" },
+        "platformFee": { "type": "number" },
+        "netValue": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "scheduled", "in_progress", "completed", "cancelled"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "customerId", "providerId", "serviceTitle", "status"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Marketplace purchase order from customer to merchant",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "customerName": { "type": "string", "maxLength": 120 },
+        "customerPhone": { "type": "string", "maxLength": 30 },
+        "storeId": { "type": "string", "maxLength": 128 },
+        "storeName": { "type": "string", "maxLength": 120 },
+        "items": { "type": "array" },
+        "subtotal": { "type": "number" },
+        "deliveryFee": { "type": "number" },
+        "discount": { "type": "number" },
+        "total": { "type": "number" },
+        "platformCommission": { "type": "number" },
+        "merchantPayout": { "type": "number" },
+        "status": { "type": "string", "enum": [
+          "pending_payment",
+          "payment_confirmed",
+          "received",
+          "preparing",
+          "ready_for_pickup",
+          "driver_assigned",
+          "collected",
+          "out_for_delivery",
+          "delivered",
+          "cancelled"
+        ]},
+        "deliveryAddress": { "type": "object" },
+        "paymentMethod": { "type": "string", "enum": ["pix", "credit_card", "cash"] },
+        "paymentStatus": { "type": "string", "enum": ["pending", "paid", "refunded"] },
+        "deliveryId": { "type": "string", "maxLength": 128 },
+        "driverId": { "type": "string", "maxLength": 128 },
+        "driverName": { "type": "string", "maxLength": 120 },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "customerId", "storeId", "items", "total", "status"]
+    },
+    "Delivery": {
+      "title": "Delivery",
+      "description": "Logistics dispatch record for an order",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "orderId": { "type": "string", "maxLength": 128 },
+        "storeId": { "type": "string", "maxLength": 128 },
+        "storeName": { "type": "string", "maxLength": 120 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "customerName": { "type": "string", "maxLength": 120 },
+        "driverId": { "type": "string", "maxLength": 128 },
+        "driverName": { "type": "string", "maxLength": 120 },
+        "pickupAddress": { "type": "string", "maxLength": 255 },
+        "deliveryAddress": { "type": "string", "maxLength": 255 },
+        "fee": { "type": "number" },
+        "driverEarnings": { "type": "number" },
+        "status": { "type": "string", "enum": ["requested", "accepted", "arrived_pickup", "collected", "in_transit", "delivered", "cancelled"] },
+        "pickupTime": { "type": "string" },
+        "deliveredTime": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "orderId", "storeId", "status", "fee"]
+    },
+    "Merchant": {
+      "title": "Merchant",
+      "description": "Registered merchant application and business legal details in the SaaS marketplace",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "fullName": { "type": "string", "maxLength": 150 },
+        "email": { "type": "string", "maxLength": 255 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "corporateReason": { "type": "string", "maxLength": 200 },
+        "cnpj": { "type": "string", "maxLength": 25 },
+        "storeName": { "type": "string", "maxLength": 150 },
+        "address": {
+          "type": "object",
+          "properties": {
+            "street": { "type": "string" },
+            "number": { "type": "string" },
+            "neighborhood": { "type": "string" },
+            "city": { "type": "string" },
+            "state": { "type": "string" },
+            "zipCode": { "type": "string" },
+            "complement": { "type": "string" }
+          },
+          "required": ["street", "number", "neighborhood", "city", "state", "zipCode"]
+        },
+        "category": { "type": "string", "maxLength": 100 },
+        "status": { "type": "string", "enum": ["pendente", "aprovado", "rejeitado"] },
+        "acceptedTerms": { "type": "boolean" },
+        "acceptedTermsAt": { "type": "string" },
+        "termsConsentDetails": { "type": "string" },
+        "ownerUid": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["fullName", "email", "phone", "corporateReason", "cnpj", "storeName", "address", "category", "status", "acceptedTerms", "acceptedTermsAt"]
+    },
+    "DeliveryDriver": {
+      "title": "DeliveryDriver",
+      "description": "Registered delivery driver profile, documentation and vehicle info",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "fullName": { "type": "string", "maxLength": 150 },
+        "name": { "type": "string", "maxLength": 150 },
+        "email": { "type": "string", "maxLength": 255 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "cpf": { "type": "string", "maxLength": 20 },
+        "vehicleType": { "type": "string", "enum": ["Moto", "Carro", "Bicicleta"] },
+        "licensePlate": { "type": "string", "maxLength": 20 },
+        "cnh": { "type": "string", "maxLength": 30 },
+        "address": {
+          "type": "object",
+          "properties": {
+            "street": { "type": "string" },
+            "number": { "type": "string" },
+            "neighborhood": { "type": "string" },
+            "city": { "type": "string" },
+            "state": { "type": "string" },
+            "zipCode": { "type": "string" },
+            "complement": { "type": "string" }
+          },
+          "required": ["street", "number", "neighborhood", "city", "state", "zipCode"]
+        },
+        "status": { "type": "string", "enum": ["pendente", "aprovado", "rejeitado"] },
+        "acceptedTerms": { "type": "boolean" },
+        "acceptedTermsAt": { "type": "string" },
+        "termsConsentDetails": { "type": "string" },
+        "ownerUid": { "type": "string", "maxLength": 128 },
+        "isOnline": { "type": "boolean" },
+        "rating": { "type": "number" },
+        "completedDeliveries": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["fullName", "email", "phone", "cpf", "vehicleType", "address", "status", "acceptedTerms", "acceptedTermsAt"]
+    },
+    "Worker": {
+      "title": "Worker",
+      "description": "Internal team member with granular role-based permissions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "uid": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 120 },
+        "email": { "type": "string", "maxLength": 255 },
+        "department": { "type": "string", "enum": ["atendimento", "financeiro", "operacoes", "moderador", "suporte", "custom"] },
+        "permissions": { "type": "array" },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "uid", "name", "email", "department", "status"]
+    },
+    "Seller": {
+      "title": "Seller",
+      "description": "Commercial sales representative authorized to manage stores, sell banners, and SaaS plans",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "uid": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 120 },
+        "email": { "type": "string", "maxLength": 255 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "cpf": { "type": "string", "maxLength": 20 },
+        "temporaryPassword": { "type": "string", "maxLength": 10 },
+        "mustChangePassword": { "type": "boolean" },
+        "commissionSalesRate": { "type": "number" },
+        "commissionPlansRate": { "type": "number" },
+        "commissionBannersRate": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "inactive", "pending"] },
+        "monthlyGoal": { "type": "number" },
+        "totalSalesAccumulated": { "type": "number" },
+        "totalCommissionsPaid": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "email", "cpf", "temporaryPassword", "status"]
+    },
+    "BannerPricingSetting": {
+      "title": "BannerPricingSetting",
+      "description": "Advertising spaces in marketplace with prices and commission rates for sellers",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 120 },
+        "location": { "type": "string", "enum": ["home_top", "home_middle", "sidebar", "category"] },
+        "weeklyPrice": { "type": "number" },
+        "monthlyPrice": { "type": "number" },
+        "sellerCommissionRate": { "type": "number" },
+        "active": { "type": "boolean" },
+        "maxSlots": { "type": "number" },
+        "activeBookingsCount": { "type": "number" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "title", "location", "weeklyPrice", "monthlyPrice", "active"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "Review and star rating for store, product, service, or delivery driver",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "authorId": { "type": "string", "maxLength": 128 },
+        "authorName": { "type": "string", "maxLength": 120 },
+        "targetType": { "type": "string", "enum": ["store", "product", "service", "driver"] },
+        "targetId": { "type": "string", "maxLength": 128 },
+        "rating": { "type": "number" },
+        "comment": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "authorId", "targetType", "targetId", "rating"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "In-app direct communication message",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "conversationId": { "type": "string", "maxLength": 128 },
+        "senderId": { "type": "string", "maxLength": 128 },
+        "senderName": { "type": "string", "maxLength": 120 },
+        "recipientId": { "type": "string", "maxLength": 128 },
+        "text": { "type": "string", "maxLength": 2000 },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "conversationId", "senderId", "recipientId", "text"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "User notification item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 120 },
+        "body": { "type": "string", "maxLength": 500 },
+        "type": { "type": "string", "enum": ["order", "service", "delivery", "promo", "system", "chat"] },
+        "link": { "type": "string", "maxLength": 255 },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "title", "body", "type", "read"]
+    },
+    "PlatformSettings": {
+      "title": "PlatformSettings",
+      "description": "Global SaaS system configuration parameters",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 60 },
+        "appName": { "type": "string", "maxLength": 100 },
+        "city": { "type": "string", "maxLength": 100 },
+        "state": { "type": "string", "maxLength": 2 },
+        "merchantCommissionRate": { "type": "number" },
+        "providerCommissionRate": { "type": "number" },
+        "defaultDeliveryFee": { "type": "number" },
+        "currency": { "type": "string", "maxLength": 10 },
+        "supportPhone": { "type": "string", "maxLength": 30 },
+        "supportEmail": { "type": "string", "maxLength": 255 },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "appName", "city", "merchantCommissionRate", "providerCommissionRate", "defaultDeliveryFee"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Security and administrative audit trail",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "operatorUid": { "type": "string", "maxLength": 128 },
+        "operatorEmail": { "type": "string", "maxLength": 255 },
+        "action": { "type": "string", "maxLength": 150 },
+        "targetEntity": { "type": "string", "maxLength": 100 },
+        "targetId": { "type": "string", "maxLength": 128 },
+        "details": { "type": "string", "maxLength": 2000 },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["id", "operatorUid", "action", "targetEntity", "timestamp"]
+    },
+    "Favorite": {
+      "title": "Favorite",
+      "description": "User bookmarked store, product, or service",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "itemType": { "type": "string", "enum": ["store", "product", "service"] },
+        "itemId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 150 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "subtitle": { "type": "string", "maxLength": 150 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "itemType", "itemId"]
+    },
+    "SupportTicket": {
+      "title": "SupportTicket",
+      "description": "Customer or merchant support request",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "authorId": { "type": "string", "maxLength": 128 },
+        "authorName": { "type": "string", "maxLength": 120 },
+        "authorEmail": { "type": "string", "maxLength": 255 },
+        "category": { "type": "string", "enum": ["pedido", "pagamento", "entrega", "loja", "servico", "cadastro", "seguranca", "outros"] },
+        "subject": { "type": "string", "maxLength": 150 },
+        "message": { "type": "string", "maxLength": 3000 },
+        "status": { "type": "string", "enum": ["aberto", "em_analise", "respondido", "resolvido"] },
+        "response": { "type": "string", "maxLength": 3000 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "authorId", "category", "subject", "message", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User account information and roles"
+    },
+    "/stores/{storeId}": {
+      "schema": "Store",
+      "description": "Stores and merchant business entities"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Products offered by stores"
+    },
+    "/serviceProviders/{providerId}": {
+      "schema": "ServiceProvider",
+      "description": "Professional service providers profiles"
+    },
+    "/services/{serviceId}": {
+      "schema": "ServiceItem",
+      "description": "Catalog of services"
+    },
+    "/serviceRequests/{requestId}": {
+      "schema": "ServiceRequest",
+      "description": "Customer requests for professional services"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Customer marketplace orders"
+    },
+    "/deliveries/{deliveryId}": {
+      "schema": "Delivery",
+      "description": "Logistics and delivery dispatches"
+    },
+    "/deliveryDrivers/{driverId}": {
+      "schema": "DeliveryDriver",
+      "description": "Delivery driver profiles"
+    },
+    "/workers/{workerId}": {
+      "schema": "Worker",
+      "description": "Internal administrative workers and permissions"
+    },
+    "/reviews/{reviewId}": {
+      "schema": "Review",
+      "description": "User reviews and star ratings"
+    },
+    "/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Internal chat messages"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "User notifications"
+    },
+    "/platformSettings/{settingId}": {
+      "schema": "PlatformSettings",
+      "description": "SaaS global configurations"
+    },
+    "/auditLogs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Administrative actions audit trail"
+    },
+    "/favorites/{favoriteId}": {
+      "schema": "Favorite",
+      "description": "User favorites"
+    },
+    "/supportTickets/{ticketId}": {
+      "schema": "SupportTicket",
+      "description": "Support tickets"
+    }
+  }
+}

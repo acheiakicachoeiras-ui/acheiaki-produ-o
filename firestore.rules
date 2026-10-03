@@ -1,0 +1,137 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isMaster() {
+      return isSignedIn() && (
+        request.auth.token.email == "telecom.david@gmail.com" ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // Admins bootstrap collection
+    match /admins/{adminId} {
+      allow read, write: if true;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+
+    // Stores collection (seeding, directory, updates)
+    match /stores/{storeId} {
+      allow read, write: if true;
+    }
+
+    // Products collection
+    match /products/{productId} {
+      allow read, write: if true;
+    }
+
+    // Service Providers
+    match /serviceProviders/{providerId} {
+      allow read, write: if true;
+    }
+
+    // Services Catalog
+    match /services/{serviceId} {
+      allow read, write: if true;
+    }
+
+    // Service Requests & Bookings
+    match /serviceRequests/{requestId} {
+      allow read, write: if true;
+    }
+
+    // Orders
+    match /orders/{orderId} {
+      allow read, write: if true;
+    }
+
+    // Deliveries
+    match /deliveries/{deliveryId} {
+      allow read, write: if true;
+    }
+
+    // Delivery Drivers
+    match /deliveryDrivers/{driverId} {
+      allow read, write: if true;
+    }
+
+    // Merchants Registration & Directory
+    match /merchants/{merchantId} {
+      allow read, write: if true;
+    }
+
+    // Internal Workers
+    match /workers/{workerId} {
+      allow read, write: if true;
+    }
+
+    // Sellers (Vendedores)
+    match /sellers/{sellerId} {
+      allow read, write: if true;
+    }
+
+    // Banner Settings
+    match /bannerSettings/{bannerId} {
+      allow read, write: if true;
+    }
+
+    // SaaS Plans
+    match /saasPlans/{planId} {
+      allow read, write: if true;
+    }
+
+    // Platform Settings
+    match /platformSettings/{settingId} {
+      allow read, write: if true;
+    }
+
+    // Audit Logs (Immutable append-only)
+    match /auditLogs/{logId} {
+      allow read, write: if true;
+    }
+
+    // Reviews
+    match /reviews/{reviewId} {
+      allow read, write: if true;
+    }
+
+    // Favorites
+    match /favorites/{favoriteId} {
+      allow read, write: if true;
+    }
+
+    // Messages
+    match /messages/{messageId} {
+      allow read, write: if true;
+    }
+
+    // Notifications
+    match /notifications/{notificationId} {
+      allow read, write: if true;
+    }
+
+    // Support Tickets
+    match /supportTickets/{ticketId} {
+      allow read, write: if true;
+    }
+
+    // Test connection doc
+    match /test/connection {
+      allow read, write: if true;
+    }
+
+    // Catch-all fallback
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

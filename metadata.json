@@ -1,0 +1,6 @@
+{
+  "name": "ConectAí - Marketplace Local & Serviços",
+  "description": "O ecossistema digital de comércio, serviços e entregas da sua cidade. Conectando lojistas, prestadores de serviços, entregadores e clientes em Cachoeiras de Macacu.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
